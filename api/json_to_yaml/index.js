@@ -14,12 +14,15 @@ const addKeyValue = (dataArray) => {
     }
     return dataArray;
 }
-const readFile = () => {
+const readFile = (path, callback) => {
     let dataArray = [];
-    fs.readFile(paths.READ_JSON, (err, data) => {
-        if (err) throw err;
+    fs.readFile(path, (err, data) => {
+        if (err) {
+            //callback(err);
+            throw err;
+        }
         dataArray = addKeyValue(JSON.parse(data));
-        writeFile(dataArray)
+        writeFile(dataArray);
     })
 }
 const writeFile = (data) => {
@@ -37,6 +40,12 @@ const toYaml = (data) => {
     });
 }
 const jsonToYaml = () => {
-    readFile();
+    readFile(paths.READ_JSON);
 }
-module.exports = jsonToYaml;
+
+module.exports = {
+    jsonToYaml : jsonToYaml,
+    readFile : readFile,
+    addKeyValue : addKeyValue
+}
+/* module.exports = jsonToYaml; */
